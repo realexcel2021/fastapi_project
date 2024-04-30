@@ -13,47 +13,60 @@ env:
     ECR_DOCKER_IMAGE: fast-api-repo
 
 jobs:
+    semgrep-code-analysis:
+      
+      name: semgrep/ci
+      runs-on: ubuntu-latest
+
+      container:
+        image: semgrep/semgrep
+
+      steps:
+        - uses: actions/checkout@v4
+        - run: semgrep ci
+          env:
+            SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
     
-    build-frontend-image:
-        runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: ./src
+    build-image:
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: ./src
+        
+
+      steps:
+        
+        - name: Checkout Codebase
+          uses: actions/checkout@v4
+
+        - uses: benjlevesque/short-sha@v3.0
+          name: Get repo short sha
+          id: short-sha
+          with:
+            length: 6
+
+
+        - name: Setup AWS ECR Details
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{secrets.REGION}}
+
+
+        - name: Login to Amazon ECR
+          id: login-pf-aws-ecr
+          uses: aws-actions/amazon-ecr-login@v1
           
 
-        steps:
-          
-          - name: Checkout Codebase
-            uses: actions/checkout@v4
-
-          - uses: benjlevesque/short-sha@v3.0
-            name: Get repo short sha
-            id: short-sha
-            with:
-              length: 6
-
-
-          - name: Setup AWS ECR Details
-            uses: aws-actions/configure-aws-credentials@v1
-            with:
-              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              aws-region: ${{secrets.REGION}}
-
-
-          - name: Login to Amazon ECR
-            id: login-pf-aws-ecr
-            uses: aws-actions/amazon-ecr-login@v1
-            
-
-          - name: Build and push the tagged docker image to Amazon ECR
-            env:
-              ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
-              ECR_REPOSITORY: ${{secrets.ECR_DOCKER_IMAGE}}
-              IMAGE_TAG: ${{ steps.short-sha.outputs.sha }}
-            run: |
-              docker build -t $ECR_REGISTRY/$ECR_DOCKER_IMAGE:$IMAGE_TAG .
-              docker push $ECR_REGISTRY/$ECR_DOCKER_IMAGE:$IMAGE_TAG
+        - name: Build and push the tagged docker image to Amazon ECR
+          env:
+            ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
+            ECR_REPOSITORY: ${{secrets.ECR_DOCKER_IMAGE}}
+            IMAGE_TAG: ${{ steps.short-sha.outputs.sha }}
+          run: |
+            docker build -t $ECR_REGISTRY/$ECR_DOCKER_IMAGE:$IMAGE_TAG .
+            docker push $ECR_REGISTRY/$ECR_DOCKER_IMAGE:$IMAGE_TAG
   
 
           
