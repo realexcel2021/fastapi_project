@@ -16,6 +16,10 @@ jobs:
     
     build-frontend-image:
         runs-on: ubuntu-latest
+        defaults:
+        run:
+          working-directory: ./src
+          
 
         steps:
           
