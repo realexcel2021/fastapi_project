@@ -2,6 +2,14 @@ provider "aws" {
   region = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "sample-outputs-090922321"
+    key    = "fastapi/tfstate"
+    region = "us-east-1"
+  }
+}
+
 
 # create VPC
 
