@@ -10,7 +10,7 @@ on:
 
 env: 
     REGION: us-east-1
-    ECR_DOCKER_IMAGE: 214015662206.dkr.ecr.us-east-1.amazonaws.com/fast-api-repo
+    ECR_DOCKER_IMAGE: fast-api-repo
 
 jobs:
     
