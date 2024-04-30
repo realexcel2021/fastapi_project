@@ -1,0 +1,45 @@
+name: "Pipeline to build both frontend and backend images"
+
+on:
+    workflow_dispatch:
+      branches:
+        - main
+    # push:
+    #   branches:
+    #     - master
+
+env: 
+    REGION: us-east-1
+
+jobs:
+    
+    build-frontend-image:
+        runs-on: ubuntu-latest
+
+        steps:
+          
+          - name: Checkout Codebase
+            uses: actions/checkout@v4
+
+          - uses: benjlevesque/short-sha@v3.0
+            name: Get repo short sha
+            id: short-sha
+            with:
+              length: 6
+
+
+          - uses: mr-smithers-excellent/docker-build-push@v6
+            name: Build API Image
+            with:
+              image: ${{ secrets.ECR_DOCKER_IMAGE }}
+              tags: latest, ${{ steps.short-sha.outputs.sha }}
+              directory: ./src/
+              dockerfile: ./src/Dockerfile
+              registry: ${{ secrets.ACCOUNT_NUMBER }}.dkr.ecr.${{ env.REGION }}.amazonaws.com
+              env:
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  
+
+          
