@@ -7,3 +7,17 @@ This repository contains a sample fast api written in python. The api accepts a 
     "letter" : "p" # can be any other letter
 }
 ```
+
+To use this repo on the cloud ensure you set you github actions secrets with AWS credentials, AWS Account Number, Region, sonar host url, sonar token
+
+```
+ACCOUNT_NUMBER
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+REGION
+SONAR_HOST_URL
+SONAR_TOKEN
+```
+![Secet Variables](./img/image.png)
+
+
