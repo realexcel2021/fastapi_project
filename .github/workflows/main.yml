@@ -1,4 +1,4 @@
-name: "Pipeline to build both frontend and backend images"
+name: "Build fast api and push to ecr"
 
 on:
     workflow_dispatch:
