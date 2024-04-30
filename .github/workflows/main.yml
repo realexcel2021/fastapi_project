@@ -36,9 +36,9 @@ jobs:
               directory: ./src/
               dockerfile: ./src/Dockerfile
               registry: ${{ secrets.ACCOUNT_NUMBER }}.dkr.ecr.${{ env.REGION }}.amazonaws.com
-              env:
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            env:
+              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   
 
