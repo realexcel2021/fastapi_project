@@ -16,9 +16,6 @@ jobs:
   sonarqube:
     name: SonarQube Integration
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
     
     steps:
     - uses: actions/checkout@v4
@@ -30,9 +27,7 @@ jobs:
       with:
         host: ${{ secrets.SONAR_HOST_URL }}
         login: ${{ secrets.SONAR_TOKEN }}
-        # projectName: fastapi_project
-        # projectKey: realexcel2021_fastapi_project
-        # organization: realexcel2021
+        projectBaseDir: "src/"
   
   build-image:
     runs-on: ubuntu-latest
