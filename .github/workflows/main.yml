@@ -10,6 +10,7 @@ on:
 
 env: 
     REGION: us-east-1
+    ECR_DOCKER_IMAGE: 214015662206.dkr.ecr.us-east-1.amazonaws.com/fast-api-repo
 
 jobs:
     
@@ -31,7 +32,7 @@ jobs:
           - uses: mr-smithers-excellent/docker-build-push@v6
             name: Build API Image
             with:
-              image: ${{ secrets.ECR_DOCKER_IMAGE }}
+              image: ${{ env.ECR_DOCKER_IMAGE }}
               tags: latest, ${{ steps.short-sha.outputs.sha }}
               directory: ./src/
               dockerfile: ./src/Dockerfile
