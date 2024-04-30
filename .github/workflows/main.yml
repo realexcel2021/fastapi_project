@@ -79,6 +79,7 @@ jobs:
         
 
       - name: Build and push the tagged docker image to Amazon ECR
+        id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{secrets.ECR_DOCKER_IMAGE}}
