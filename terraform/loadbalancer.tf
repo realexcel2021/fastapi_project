@@ -29,7 +29,7 @@ resource "aws_acm_certificate" "cert" {
 
 
 module "alb" {
-  source = "terraform-aws-modules/alb/aws"
+  source = "./modules/alb"
 
   name    = "fastAPI-LB"
   vpc_id  = module.vpc.vpc_id

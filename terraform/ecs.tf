@@ -1,6 +1,6 @@
 
 module "ecs_cluster" {
-  source = "terraform-aws-modules/ecs/aws//modules/cluster"
+  source = "./modules/ecs_cluster/modules/cluster"
 
   cluster_name = "fast-api-cluster"
 
@@ -23,7 +23,7 @@ module "ecs_cluster" {
 }
 
 module "ecs_service" {
-  source = "terraform-aws-modules/ecs/aws//modules/service"
+  source = "./modules/ecs_service/modules/service"
   name        = "fastapi-svc"
   cluster_arn = module.ecs_cluster.arn
   cpu    = 512
