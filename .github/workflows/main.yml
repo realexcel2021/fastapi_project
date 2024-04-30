@@ -28,6 +28,7 @@ jobs:
         host: ${{ secrets.SONAR_HOST_URL }}
         login: ${{ secrets.SONAR_TOKEN }}
         projectName: fastapi_project
+        projectKey: realexcel2021_fastapi_project
   
   build-image:
     runs-on: ubuntu-latest
