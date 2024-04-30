@@ -41,6 +41,10 @@ jobs:
       
       - name: Checkout Codebase
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            src
 
       - uses: benjlevesque/short-sha@v3.0
         name: Get repo short sha
