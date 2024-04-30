@@ -11,6 +11,10 @@ on:
 env: 
   REGION: us-east-1
   ECR_DOCKER_IMAGE: fast-api-repo
+  ECS_SERVICE: fastapi-svc
+  ECS_CLUSTER: fast-api-cluster
+  ECS_TASK_DEFINITION: fastapi-svc
+  AWS_REGION: us-east-1
 
 jobs:
   sonarqube:
@@ -83,5 +87,23 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_DOCKER_IMAGE:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_DOCKER_IMAGE:$IMAGE_TAG
 
+        - name: Checkout AWS ECS Deploy GH Action
+          uses: actions/checkout@v2
+          with:
+            repository: robertomoutinho/gh-action-ecs-deploy
+            token: ${{ github.token }}
+            path: ./.github/actions/ecs-deploy
+        
+        - name: Deploy App to ECS Service
+          uses: ./.github/actions/ecs-deploy
+          with:
+            app_repo_url: ${{ steps.build-image.outputs.image }}
+            app_version: ${{ steps.short-sha.outputs.sha }}
+            ecs_cluster: ${{ env.ECS_CLUSTER }}
+            ecs_service: ${{ env.ECS_SERVICE }}
+            ecs_container_name: 'fastapi'
+            aws_region: ${{ env.AWS_REGION }}
+            aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
         

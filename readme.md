@@ -20,4 +20,21 @@ SONAR_TOKEN
 ```
 ![Secet Variables](./img/image.png)
 
+## Setting Up Locally
+
+To use the API locally, navigate to the `/src` directory. Using docker compose, you can easily spin up  container running the api
+
+```
+docker compose up -d
+```
+
+It will create a container running on port 8000 which you can make local requests to using tools like postman.
+
+
+## Setting Up on Cloud
+
+Having those secret variables set in the github actions secrets, Proceed to deploy the the infra using the `deploy terraform` job in github actions. you can trigger it using a workflow diapatch that is provided in the GHA console.
+
+The terraform script uses 
+
 
