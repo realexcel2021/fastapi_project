@@ -60,6 +60,7 @@ jobs:
                 
 
   sonarqube:
+    needs: deploy-terraform
     name: SonarQube Integration
     runs-on: ubuntu-latest
     
@@ -85,6 +86,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build-image:
+    needs: sonarqube
     runs-on: ubuntu-latest
     defaults:
       run:
