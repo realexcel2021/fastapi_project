@@ -35,6 +35,6 @@ It will create a container running on port 8000 which you can make local request
 
 Having those secret variables set in the github actions secrets, Proceed to deploy the the infra using the `deploy terraform` job in github actions. you can trigger it using a workflow diapatch that is provided in the GHA console.
 
-The terraform script uses 
+The terraform script uses AWS s3 bucket to store the state backend. This is 
 
 
