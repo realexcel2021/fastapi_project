@@ -75,20 +75,20 @@ module "alb" {
 
   target_groups = {
     ecs-tasks = {
-      name_prefix = "dotnet"
+      name_prefix = "ui"
       protocol         = "HTTP"
-      port             = 8000
+      port             = 3000
       target_type      = "ip"
       create_attachment = false
 
         health_check = {
             enabled             = true
             interval            = 30
-            path                = "/health"
-            port                = "8000"
+            path                = "/"
+            port                = "3000"
             healthy_threshold   = 3
-            unhealthy_threshold = 3
-            timeout             = 6
+            unhealthy_threshold = 5
+            timeout             = 20
             protocol            = "HTTP"
             matcher             = "200-399"
       }
