@@ -33,7 +33,7 @@ resource "aws_security_group" "rds" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [module.ecs_service.security_group_id]
+    security_groups = [module.ecs_service.security_group_id, module.ecs_service_api.security_group_id]
     description     = "Allow MySQL access from ECS tasks"
   }
 

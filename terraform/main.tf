@@ -14,6 +14,13 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+locals {
+  waiting_room_api_url = "https://d1gv7fyivejatk.cloudfront.net"
+  waiting_room_event_id = "Sample"
+  issuer_url = "https://xg9l9of39f.execute-api.eu-west-2.amazonaws.com/api"
+  api_service_name = "api-svc"
+  api_alb_name    = "api-alb"
+}
 
 # create VPC
 
